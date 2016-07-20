@@ -1,0 +1,29 @@
+language: go
+
+sudo: false
+
+branches:
+  only:
+    - master
+    - develop
+
+go:
+  - 1.5
+  - 1.6
+  - tip
+
+before_install:
+  - go get -v -t ./...
+  #- go get github.com/onsi/gomega
+  #- go get github.com/onsi/ginkgo
+  #- go get golang.org/x/tools/cmd/cover
+
+script:
+  - bash go.test.sh
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+matrix:
+  allow_failures:
+    - go: tip
