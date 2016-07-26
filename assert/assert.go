@@ -49,6 +49,22 @@ func NotNil(t *testing.T, v interface{}) {
 	}
 }
 
+// True asserts the given value is true, if not true
+// it log the error trace
+func True(t *testing.T, v interface{}) {
+	if !equal(true, v) {
+		fail(t, 3, "Expected [true], got [%v]", v)
+	}
+}
+
+// False asserts the given value is false, if not false
+// it log the error trace
+func False(t *testing.T, v interface{}) {
+	if !equal(false, v) {
+		fail(t, 3, "Expected [false], got [%v]", v)
+	}
+}
+
 // Fail reports fail through and logs the error trace
 func Fail(t *testing.T, msg string, args ...interface{}) {
 	fail(t, 3, msg, args...)
