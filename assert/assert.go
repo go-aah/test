@@ -24,12 +24,30 @@ func Equal(t *testing.T, expected, got interface{}) {
 	}
 }
 
+// Equalf asserts given two values are equal.
+// If it's not equal, it logs the error trace.
+// It supports all the values supported by `reflect.DeepEqual`
+func Equalf(t *testing.T, expected, got interface{}, msg string, args ...interface{}) {
+	if !equal(expected, got) {
+		fail(t, 3, msg, args...)
+	}
+}
+
 // NotEqual asserts given two values are not equal.
 // If it's equal, it logs the error trace.
 // It supports all the values supported by `reflect.DeepEqual`
 func NotEqual(t *testing.T, expected, got interface{}) {
 	if equal(expected, got) {
 		fail(t, 3, "Expected [%v], got [%v]", expected, got)
+	}
+}
+
+// NotEqualf asserts given two values are not equal.
+// If it's equal, it logs the error trace.
+// It supports all the values supported by `reflect.DeepEqual`
+func NotEqualf(t *testing.T, expected, got interface{}, msg string, args ...interface{}) {
+	if equal(expected, got) {
+		fail(t, 3, msg, args...)
 	}
 }
 
@@ -41,11 +59,27 @@ func Nil(t *testing.T, v interface{}) {
 	}
 }
 
+// Nilf asserts the given value is `nil`. If it's not nil,
+// it log the error trace
+func Nilf(t *testing.T, v interface{}, msg string, args ...interface{}) {
+	if !isNil(v) {
+		fail(t, 3, msg, args...)
+	}
+}
+
 // NotNil asserts the given value is not `nil`. If it's nil,
 // it log the error trace
 func NotNil(t *testing.T, v interface{}) {
 	if isNil(v) {
 		fail(t, 3, "Expected [%v], got [nil]", v)
+	}
+}
+
+// NotNilf asserts the given value is not `nil`. If it's nil,
+// it log the error trace
+func NotNilf(t *testing.T, v interface{}, msg string, args ...interface{}) {
+	if isNil(v) {
+		fail(t, 3, msg, args...)
 	}
 }
 
@@ -57,11 +91,27 @@ func True(t *testing.T, v interface{}) {
 	}
 }
 
+// Truef asserts the given value is true, if not true
+// it log the error trace
+func Truef(t *testing.T, v interface{}, msg string, args ...interface{}) {
+	if !equal(true, v) {
+		fail(t, 3, msg, args...)
+	}
+}
+
 // False asserts the given value is false, if not false
 // it log the error trace
 func False(t *testing.T, v interface{}) {
 	if !equal(false, v) {
 		fail(t, 3, "Expected [false], got [%v]", v)
+	}
+}
+
+// Falsef asserts the given value is false, if not false
+// it log the error trace
+func Falsef(t *testing.T, v interface{}, msg string, args ...interface{}) {
+	if !equal(false, v) {
+		fail(t, 3, msg, args...)
 	}
 }
 
@@ -78,6 +128,14 @@ func FailOnError(t *testing.T, err error, msg string) {
 	}
 }
 
+// FailOnErrorf asserts given `error` if it's not nil. It reports
+// the error trace
+func FailOnErrorf(t *testing.T, err error, msg string, args ...interface{}) {
+	if err != nil {
+		fail(t, 3, msg, args...)
+	}
+}
+
 // FailNowOnError asserts given `error` if it's not nil. It reports
 // the error trace and fails the test
 func FailNowOnError(t *testing.T, err error, msg string) {
@@ -86,6 +144,19 @@ func FailNowOnError(t *testing.T, err error, msg string) {
 		t.FailNow()
 	}
 }
+
+// FailNowOnErrorf asserts given `error` if it's not nil. It reports
+// the error trace and fails the test
+func FailNowOnErrorf(t *testing.T, err error, msg string, args ...interface{}) {
+	if err != nil {
+		fail(t, 3, msg, args...)
+		t.FailNow()
+	}
+}
+
+//‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+// Unexported methods
+//___________________________________
 
 func fail(t *testing.T, calldepth int, msg string, args ...interface{}) {
 	if len(args) > 0 {
