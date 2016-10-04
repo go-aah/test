@@ -13,7 +13,7 @@ func TestGoPath(t *testing.T) {
 
 func TestFetchCallerInfo(t *testing.T) {
 	callerInfo := fetchCallerInfo(1)
-	Equal(t, "github.com/go-aah/test/assert/assert_test.go:15", callerInfo)
+	Equal(t, "aahframework.org/test/assert/assert_test.go:15", callerInfo)
 }
 
 func TestIsNil(t *testing.T) {
