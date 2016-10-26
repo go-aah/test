@@ -13,9 +13,13 @@ go:
   - tip
 
 before_install:
-  - go get -v -t ./...
+  - bash prepare-aah-env.sh "" "test"
+
+install:
+  - go get -v -t aahframework.org/test/...
 
 script:
+  - cd $GOPATH/src/aahframework.org/test
   - bash go.test.sh
 
 after_success:
