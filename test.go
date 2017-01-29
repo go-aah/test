@@ -5,4 +5,4 @@
 package test
 
 // Version is the `aah` testing library version number
-const Version = "0.1"
+const Version = "0.2"
