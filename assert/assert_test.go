@@ -4,7 +4,10 @@
 
 package assert
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func TestGoPath(t *testing.T) {
 	gopath := goSrcPath()
@@ -13,7 +16,7 @@ func TestGoPath(t *testing.T) {
 
 func TestFetchCallerInfo(t *testing.T) {
 	callerInfo := fetchCallerInfo(1)
-	Equal(t, "aahframework.org/test/assert/assert_test.go:15", callerInfo)
+	True(t, strings.Contains(callerInfo, "/assert/assert_test.go:18"))
 }
 
 func TestIsNil(t *testing.T) {
